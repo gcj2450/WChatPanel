@@ -43,27 +43,53 @@ namespace WCP
             else
             {
                 m_photoImage.sprite = null;
-                m_photoImage.color = chatElementInfo.left ? Color.red : Color.green;
-            }
+                switch (chatElementInfo.align)
+                {
+                    case ChatElementAlign.left:
+                        m_photoImage.color = Color.red;
 
+                        break;
+                    case ChatElementAlign.right:
+                        m_photoImage.color = Color.green;
+                        break;
+                    case ChatElementAlign.center:
+                        m_photoImage.color = Color.gray;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            m_photoImage.gameObject.SetActive(true);
+            backGround.color = Color.white;
             m_textWidth = m_configFile.width;
             m_photoSize = m_configFile.photoSize;
             m_bornTime = chatElementInfo.bornTime;
 
             text.text = chatElementInfo.text;
-            if (chatElementInfo.left)
+            switch (chatElementInfo.align)
             {
-                m_horizontalLayoutGroup.childAlignment = TextAnchor.UpperLeft;
-                photo.transform.SetSiblingIndex(0);
-                backGround.sprite = m_configFile.youBallon;
-                text.rectTransform.anchoredPosition = new Vector2(-14, -10);
-            }
-            else
-            {
-                m_horizontalLayoutGroup.childAlignment = TextAnchor.UpperRight;
-                backGround.transform.SetSiblingIndex(0);
-                backGround.sprite = m_configFile.iBallon;
-                text.rectTransform.anchoredPosition = new Vector2(-25, -10);
+                case ChatElementAlign.left:
+                    m_horizontalLayoutGroup.childAlignment = TextAnchor.UpperLeft;
+                    photo.transform.SetSiblingIndex(0);
+                    backGround.sprite = m_configFile.youBallon;
+                    text.rectTransform.anchoredPosition = new Vector2(-14, -10);
+                    break;
+                case ChatElementAlign.right:
+                    m_horizontalLayoutGroup.childAlignment = TextAnchor.UpperRight;
+                    backGround.transform.SetSiblingIndex(0);
+                    backGround.sprite = m_configFile.iBallon;
+                    text.rectTransform.anchoredPosition = new Vector2(-25, -10);
+                    break;
+                case ChatElementAlign.center:
+                    m_horizontalLayoutGroup.childAlignment = TextAnchor.UpperCenter;
+                    backGround.transform.SetSiblingIndex(0);
+                    m_photoImage.gameObject.SetActive(false);
+                    backGround.sprite = null;
+                    backGround.color = Color.gray;
+                    text.rectTransform.anchoredPosition = new Vector2(-25, -10);
+                    break;
+                default:
+                    break;
             }
 
             UpdateLayout();

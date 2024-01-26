@@ -46,7 +46,12 @@ namespace WCP
             m_text = EditorGUILayout.TextField("Say:", m_text);
             if (GUILayout.Button("Send") && Application.isPlaying)
             {
-                wcp.AddChatAndUpdate(!m_isI, m_text, m_photoId);
+                ChatElementAlign chatElementAlign = ChatElementAlign.left;
+                if (!m_isI)
+                {
+                    chatElementAlign= ChatElementAlign.right;
+                }
+                wcp.AddChatAndUpdate(chatElementAlign, m_text, m_photoId);
                 m_text = "";
                 GUIUtility.keyboardControl = 0;
             }

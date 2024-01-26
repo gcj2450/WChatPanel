@@ -11,13 +11,14 @@ namespace WCP
 
         private IEnumerator DebugChat()
         {
-            wcp.AddChatAndUpdate(true, "i say hello world", 1);
+            wcp.AddChatAndUpdate(ChatElementAlign.left, "i say hello world", 1);
             yield return new WaitForSeconds(2);
-            wcp.AddChatAndUpdate(false, "你好世界", 0);
+            wcp.AddChatAndUpdate(ChatElementAlign.right, "你好世界", 0);
+            wcp.AddChatAndUpdate(ChatElementAlign.center, "2024年1月1日", 0);
             yield return new WaitForSeconds(2);
-            wcp.AddChatAndUpdate(true, "i say hello world hello world hello world hello world ", 2);
+            wcp.AddChatAndUpdate(ChatElementAlign.left, "i say hello world hello world hello world hello world ", 2);
             yield return new WaitForSeconds(2);
-            wcp.AddChatAndUpdate(false, "你好世界,你好世界,你好世界,你好世界,你好世界,你好世界,你好世界", 0);
+            wcp.AddChatAndUpdate(ChatElementAlign.right, "你好世界,你好世界,你好世界,你好世界,你好世界,你好世界,你好世界", 0);
         }
 
         private void Start()
@@ -43,8 +44,25 @@ namespace WCP
         public void PerformanceTest(int count)
         {
             for (int i = 0; i < count; i++)
-                wcp.AddChat(Random.Range(0.0f, 1.0f) > 0.5f, lines[Random.Range(0, lines.Length)] + i.ToString(), Random.Range(0, wcp.configFile.photoSpriteList.Count));
-
+            {
+                bool align = Random.Range(0.0f, 1.0f) > 0.5f;
+                ChatElementAlign chatElementAlign = ChatElementAlign.left;
+                string lineStr = lines[Random.Range(0, lines.Length)] + i.ToString();
+                if (align)
+                {
+                    chatElementAlign = ChatElementAlign.right;
+                }
+                else
+                {
+                    chatElementAlign = ChatElementAlign.left;
+                }
+                if (i%10==0)
+                {
+                    chatElementAlign = ChatElementAlign.center;
+                    lineStr = System.DateTime.Today.ToShortDateString();
+                }
+                wcp.AddChat(chatElementAlign, lineStr, Random.Range(0, wcp.configFile.photoSpriteList.Count));
+            }
             wcp.Rebuild();
         }
 

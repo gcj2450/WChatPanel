@@ -5,9 +5,15 @@ using UnityEngine.UI;
 
 namespace WCP
 {
+    public enum ChatElementAlign
+    {
+        left,
+        right,
+        center
+    }
     public class ChatElementInfo
     {
-        public bool left;
+        public ChatElementAlign align;
         public string text;
         public float bornTime;
         public int photoId;
@@ -85,11 +91,11 @@ namespace WCP
             m_scrollRect.RefillCellsFromEnd();
         }
 
-        public void AddChat(bool isLeft, string info, int photoId = -1)
+        public void AddChat(ChatElementAlign alignMent, string info, int photoId = -1)
         {
             m_chatElementInfoList.Add(new ChatElementInfo()
             {
-                left = isLeft,
+                align = alignMent,
                 text = info,
                 bornTime = Time.time,
                 photoId = photoId,
@@ -97,11 +103,11 @@ namespace WCP
             });
         }
 
-        public void AddChatAndUpdate(bool isLeft, string info, int photoId = -1)
+        public void AddChatAndUpdate(ChatElementAlign alignMent, string info, int photoId = -1)
         {
             m_chatElementInfoList.Add(new ChatElementInfo()
             {
-                left = isLeft,
+                align = alignMent,
                 text = info,
                 bornTime = Time.time,
                 photoId = photoId,
